@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Calculator/Calculator.csproj" Id="ed968c01-812c-4ca5-b99f-12b65d7700c4" />
+  <Project Path="Leason1/Leason1.csproj" />
+  <Project Path="Leason2/Leason2.csproj" />
+  <Project Path="Leason3/Leason3.csproj" />
+</Solution>
