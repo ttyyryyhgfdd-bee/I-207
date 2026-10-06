@@ -8,10 +8,10 @@ namespace Calculator
 {
     internal class Program
     {
-        static Calculator.Calc calc = new Calculator.Calc();
         static void Main()
         {
-
+            GUIConsoleApp app = new GUIConsoleApp();
+            app.Start();
         }
     }
 }
