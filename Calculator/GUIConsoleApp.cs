@@ -13,66 +13,94 @@ namespace Calculator
         Percent = 1,
         InvPercent = 2,
         Doubledivider = 3,
-        Intdivider = 4,
-        Multiplication = 5,
-        Divider = 6,
-        Subtraction = 7,
-        Addition = 8,
-        Factorial = 9,
-        CreateArray = 10,
-        Sum = 11,
-        Max = 12,
-        Min = 13
+        Multiplication = 4,
+        Divider = 5,
+        Subtraction = 6,
+        Addition = 7,
+        Factorial = 8,
+        CreateArray = 9,
+        Sum = 10,
+        Max = 11,
+        Min = 12
     }
     #endregion
+
     internal class GUIConsoleApp
     {
-        private Calculator.Math calc = new Calculator.Math();
+        internal Calculator.Math calc = new Calculator.Math();
+        #region Защита
+        internal double ReadDoubleSafe(string message)
+        {
+            double result;
+            Console.Write(message);
+            while (!double.TryParse(Console.ReadLine(), out result))
+            {
+                Console.Clear();
+                Console.WriteLine("Ошибка! Введено некорректное значение. Пожалуйста, введите число.");
+                Console.Write(message);
+            }
+            return result;
+        }
 
+        internal int ReadIntSafe(string message)
+        {
+            int result;
+            Console.Write(message);
+            while (!int.TryParse(Console.ReadLine(), out result))
+            {
+                Console.Clear();
+                Console.WriteLine("Ошибка! Введено некорректное значение. Пожалуйста, введите целое число.");
+                Console.Write(message);
+            }
+            return result;
+        }
+        #endregion
         internal void Start()
         {
-            double[] array = new double[0];//рш фкешщь
+            double[] array = null;
+
             #region Операции
             while (true)
             {
-                Console.Write("Выберете номер действия(0,13):\n" +
+                #region Menu
+                Console.Write("Выберете номер действия(0,12):\n" +
                     "0 - Выход из программы\n" +
                     "1 - Найти процент\n" +
                     "2 - Найти разницу(в процентах)\n" +
                     "3 - Деление на остаток\n" +
-                    "4 - Деление на целое\n" +
-                    "5 - Умножение\n" +
-                    "6 - Деление\n" +
-                    "7 - Вычитание\n" +
-                    "8 - Сложение\n" +
-                    "9 - Факториал\n" +
-                    "10 - Задать массив\n" +
-                    "11 - Вывести сумму\n" +
-                    "12 - Найти максимум\n" +
-                    "13 - Найти минимум\n");
+                    "4 - Умножение\n" +
+                    "5 - Деление\n" +
+                    "6 - Вычитание\n" +
+                    "7 - Сложение\n" +
+                    "8 - Факториал\n" +
+                    "9 - Задать массив\n" +
+                    "10 - Вывести сумму\n" +
+                    "11 - Найти максимум\n" +
+                    "12 - Найти минимум\n" +
+                    "----------------------------\n");
+                #endregion
 
-                int actionNumber = Convert.ToInt16(Console.ReadLine());
+                int actionNumber;
+                while (!int.TryParse(Console.ReadLine(), out actionNumber) || actionNumber < 0 || actionNumber > 12)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Ошибка! Введите целое число от 0 до 12.");
+                    Console.Write("Выберете номер действия(0,12):\n0 - Выход...\n[повторите ввод]: ");
+                }
 
                 Operations action = (Operations)actionNumber;
-
                 if (action == Operations.Exit)
                 {
                     break;
                 }
-                
+
                 while (action != Operations.Exit)
                 {
-                    if (action == Operations.Exit)
-                    {
-                        break;
-                    }
                     #region Percent
-                    else if (action == Operations.Percent)
+                    if (action == Operations.Percent)
                     {
-                        Console.Write("Введите число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите процент: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
+                        double num1 = ReadDoubleSafe("Введите число: ");
+                        double num2 = ReadDoubleSafe("Введите процент: ");
                         double result = calc.Percent(num1, num2);
                         Console.Write("Результат: " + result + "\n");
                     }
@@ -80,10 +108,8 @@ namespace Calculator
                     #region InvPercent
                     else if (action == Operations.InvPercent)
                     {
-                        Console.Write("Введите начальное число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите конечное число: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
+                        double num1 = ReadDoubleSafe("Введите начальное число: ");
+                        double num2 = ReadDoubleSafe("Введите конечное число: ");
                         double result = calc.InvPercent(num1, num2);
                         Console.Write("Результат: " + result + "%\n");
                     }
@@ -91,32 +117,17 @@ namespace Calculator
                     #region Div%
                     else if (action == Operations.Doubledivider)
                     {
-                        Console.Write("Введите первое число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите второе число: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
+                        double num1 = ReadDoubleSafe("Введите первое число: ");
+                        double num2 = ReadDoubleSafe("Введите второе число: ");
                         double result = calc.Doubledivider(num1, num2);
-                        Console.Write("Результат: " + result + "\n");
-                    }
-                    #endregion
-                    #region Div//
-                    else if (action == Operations.Intdivider)
-                    {
-                        Console.Write("Введите первое число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите второе число: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
-                        double result = calc.Intdivider(num1, num2);
                         Console.Write("Результат: " + result + "\n");
                     }
                     #endregion
                     #region Multiply
                     else if (action == Operations.Multiplication)
                     {
-                        Console.Write("Введите первое число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите второе число: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
+                        double num1 = ReadDoubleSafe("Введите первое число: ");
+                        double num2 = ReadDoubleSafe("Введите второе число: ");
                         double result = calc.Multiplication(num1, num2);
                         Console.Write("Результат: " + result + "\n");
                     }
@@ -124,10 +135,8 @@ namespace Calculator
                     #region Div
                     else if (action == Operations.Divider)
                     {
-                        Console.Write("Введите первое число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите второе число: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
+                        double num1 = ReadDoubleSafe("Введите первое число: ");
+                        double num2 = ReadDoubleSafe("Введите второе число: ");
                         double result = calc.Divider(num1, num2);
                         Console.Write("Результат: " + result + "\n");
                     }
@@ -135,10 +144,8 @@ namespace Calculator
                     #region Sub
                     else if (action == Operations.Subtraction)
                     {
-                        Console.Write("Введите первое число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите второе число: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
+                        double num1 = ReadDoubleSafe("Введите первое число: ");
+                        double num2 = ReadDoubleSafe("Введите второе число: ");
                         double result = calc.Subtraction(num1, num2);
                         Console.Write("Результат: " + result + "\n");
                     }
@@ -146,10 +153,8 @@ namespace Calculator
                     #region Add
                     else if (action == Operations.Addition)
                     {
-                        Console.Write("Введите первое число: ");
-                        double num1 = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Введите второе число: ");
-                        double num2 = Convert.ToDouble(Console.ReadLine());
+                        double num1 = ReadDoubleSafe("Введите первое число: ");
+                        double num2 = ReadDoubleSafe("Введите второе число: ");
                         double result = calc.Addition(num1, num2);
                         Console.Write("Результат: " + result + "\n");
                     }
@@ -157,8 +162,7 @@ namespace Calculator
                     #region Factorial
                     else if (action == Operations.Factorial)
                     {
-                        Console.Write("Введите число: ");
-                        int num1 = Convert.ToInt32(Console.ReadLine());
+                        int num1 = ReadIntSafe("Введите число: ");
                         int result = calc.Factorial(num1);
                         Console.Write("Результат: " + result + "\n");
                     }
@@ -166,53 +170,83 @@ namespace Calculator
                     #region Array
                     else if (action == Operations.CreateArray)
                     {
+                        int array_size;
                         Console.Write("Введите размер массива: ");
-                        int array_size = Convert.ToInt16(Console.ReadLine());
-                        if (array_size < 0)
+                        while (!int.TryParse(Console.ReadLine(), out array_size) || array_size <= 0)
                         {
-                            Console.Write("Размер массива должен быть положительным!\n");
+                            Console.Clear();
+                            Console.WriteLine("Ошибка! Размер массива должен быть целым числом больше 0.");
+                            Console.Write("Введите размер массива: ");
                         }
-                        else
+
+                        array = new double[array_size];
+                        for (int counter = 0; array_size > counter; counter += 1)
                         {
-                            array = new double[array_size];
-                            for (int counter = 0; array_size > counter; counter += 1)
-                            {
-                                Console.Write("Введите число: ");
-                                array[counter] = Convert.ToDouble(Console.ReadLine());
-                            }
+                            array[counter] = ReadDoubleSafe($"Введите число для элемента [{counter}]: ");
                         }
                     }
                     #endregion
                     #region Sum
                     else if (action == Operations.Sum)
                     {
-                        double result = calc.Sum(array);
-                        Console.Write("Результат: " + result + "\n");
+                        if (array == null || array.Length == 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Защита: Сначала необходимо задать массив (пункт 9)!");
+                        }
+                        else
+                        {
+                            double result = calc.Sum(array);
+                            Console.Write("Результат: " + result + "\n");
+                        }
                     }
                     #endregion
                     #region Max
                     else if (action == Operations.Max)
                     {
-                        double result = calc.Max(array);
-                        Console.Write("Результат: " + result + "\n");
+                        if (array == null || array.Length == 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Защита: Сначала необходимо задать массив (пункт 9)!");
+                        }
+                        else
+                        {
+                            double result = calc.Max(array);
+                            Console.Write("Результат: " + result + "\n");
+                        }
                     }
                     #endregion
                     #region Min
                     else if (action == Operations.Min)
                     {
-                        double result = calc.Min(array);
-                        Console.Write("Результат: " + result + "\n");
+                        if (array == null || array.Length == 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Защита: Сначала необходимо задать массив (пункт 9)!");
+                        }
+                        else
+                        {
+                            double result = calc.Min(array);
+                            Console.Write("Результат: " + result + "\n");
+                        }
                     }
                     #endregion
 
                     Console.Write("Хотите снова что-то посчитать? (0 - нет. другое число - да): ");
-                    int answer = Convert.ToInt16(Console.ReadLine());
+                    int answer;
+                    while (!int.TryParse(Console.ReadLine(), out answer))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Ошибка! Введите целое число.");
+                        Console.Write("Хотите снова что-то посчитать? (0 - нет. другое число - да): ");
+                    }
                     if (answer == 0)
                     {
-                        action = Operations.Exit;
+                        return;
                     }
                     else
                     {
+                        Console.Clear();
                         action = Operations.Exit;
                     }
                 }
@@ -221,4 +255,3 @@ namespace Calculator
         }
     }
 }
-    

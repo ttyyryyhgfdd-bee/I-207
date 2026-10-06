@@ -7,13 +7,17 @@ namespace Calculator
     internal class Math
     {
         #region Percent
-        internal double Percent(double num1, double num2) => num1 * (num2 / 100);
+        internal double Percent(double num1, double num2)
+        {
+            return (num1 / num2) * 100;
+        }
         #endregion
         #region InvPercent
         internal double InvPercent(double num1, double num2)
         {
             if (num1 == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Ошибка. Деление на ноль.");
                 return 0;
             }
@@ -49,6 +53,7 @@ namespace Calculator
         {
             if (num2 == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Ошибка. Деление на ноль");
                 return 0;
             }
@@ -58,25 +63,12 @@ namespace Calculator
             }
         }
         #endregion
-        #region Div//
-        internal double Intdivider(double num1, double num2)
-        {
-            if (num2 == 0)
-            {
-                Console.WriteLine("Ошибка. Деление на ноль");
-                return 0;
-            }
-            else
-            {
-                return (int)(num1 / num2);
-            }
-        }
-        #endregion
         #region Div%
         internal double Doubledivider(double num1, double num2)
         {
             if (num2 == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Ошибка. Деление на ноль");
                 return 0;
             }
@@ -87,11 +79,18 @@ namespace Calculator
         }
         #endregion
         #region Count
-        internal int Count(double[] count) => count.Length;
+        internal int Count(double[] count) => count == null ? 0 : count.Length;
         #endregion
         #region Sum
         internal double Sum(double[] numbers)
         {
+            if (numbers == null || numbers.Length == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Ошибка. Массив не введен или пуст.");
+                return 0;
+            }
+
             var total = 0.0;
             foreach (var i in numbers)
             {
@@ -103,6 +102,13 @@ namespace Calculator
         #region Max
         internal double Max(double[] numbers)
         {
+            if (numbers == null || numbers.Length == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Ошибка. Массив не введен или пуст.");
+                return 0;
+            }
+
             double max_number = numbers[0];
             foreach (double i in numbers)
             {
@@ -117,6 +123,13 @@ namespace Calculator
         #region Min
         internal double Min(double[] numbers)
         {
+            if (numbers == null || numbers.Length == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Ошибка. Массив не введен или пуст.");
+                return 0;
+            }
+
             double min_number = numbers[0];
             foreach (double i in numbers)
             {
