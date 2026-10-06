@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculator
 {
-    #region Enumberation
+        #region Enumberation
     internal enum Operations
     {
         Exit = 0,
@@ -21,13 +21,18 @@ namespace Calculator
         CreateArray = 9,
         Sum = 10,
         Max = 11,
-        Min = 12
+        Min = 12,
+        SortAsc = 13,
+        SortDesc = 14
     }
     #endregion
+
 
     internal class GUIConsoleApp
     {
         internal Calculator.Math calc = new Calculator.Math();
+        internal Calculator.Sorting sort = new Calculator.Sorting();
+
         #region Защита
         internal double ReadDoubleSafe(string message)
         {
@@ -63,7 +68,7 @@ namespace Calculator
             while (true)
             {
                 #region Menu
-                Console.Write("Выберете номер действия(0,12):\n" +
+                Console.Write("Выберете номер действия(0,14):\n" +
                     "0 - Выход из программы\n" +
                     "1 - Найти процент\n" +
                     "2 - Найти разницу(в процентах)\n" +
@@ -77,15 +82,17 @@ namespace Calculator
                     "10 - Вывести сумму\n" +
                     "11 - Найти максимум\n" +
                     "12 - Найти минимум\n" +
+                    "13 - Массив по возрастанию\n" +
+                    "14 - Массив по убыванию\n" +
                     "----------------------------\n");
                 #endregion
 
                 int actionNumber;
-                while (!int.TryParse(Console.ReadLine(), out actionNumber) || actionNumber < 0 || actionNumber > 12)
+                while (!int.TryParse(Console.ReadLine(), out actionNumber) || actionNumber < 0 || actionNumber > 14)
                 {
                     Console.Clear();
-                    Console.WriteLine("Ошибка! Введите целое число от 0 до 12.");
-                    Console.Write("Выберете номер действия(0,12):\n0 - Выход...\n[повторите ввод]: ");
+                    Console.WriteLine("Ошибка! Введите целое число от 0 до 14.");
+                    Console.Write("Выберете номер действия(0,14):\n0 - Выход...\n[повторите ввод]: ");
                 }
 
                 Operations action = (Operations)actionNumber;
@@ -163,7 +170,7 @@ namespace Calculator
                     else if (action == Operations.Factorial)
                     {
                         int num1 = ReadIntSafe("Введите число: ");
-                        int result = calc.Factorial(num1);
+                        long result = calc.Factorial(num1);
                         Console.Write("Результат: " + result + "\n");
                     }
                     #endregion
@@ -228,6 +235,46 @@ namespace Calculator
                         {
                             double result = calc.Min(array);
                             Console.Write("Результат: " + result + "\n");
+                        }
+                    }
+                    #endregion
+                    #region SortAsc
+                    else if (action == Operations.SortAsc)
+                    {
+                        if (array == null || array.Length == 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Защита: Сначала необходимо задать массив (пункт 9)!");
+                        }
+                        else
+                        {
+                            sort.SortAscending(array);
+                            Console.Write("Отсортированный массив: ");
+                            for (int i = 0; i < array.Length; i++)
+                            {
+                                Console.Write(array[i] + " ");
+                            }
+                            Console.Write("\n");
+                        }
+                    }
+                    #endregion
+                    #region SortDesc
+                    else if (action == Operations.SortDesc)
+                    {
+                        if (array == null || array.Length == 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Защита: Сначала необходимо задать массив (пункт 9)!");
+                        }
+                        else
+                        {
+                            sort.SortDescending(array);
+                            Console.Write("Отсортированный массив: ");
+                            for (int i = 0; i < array.Length; i++)
+                            {
+                                Console.Write(array[i] + " ");
+                            }
+                            Console.Write("\n");
                         }
                     }
                     #endregion

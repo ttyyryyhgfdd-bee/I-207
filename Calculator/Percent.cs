@@ -9,7 +9,7 @@ namespace Calculator
         #region Percent
         internal double Percent(double num1, double num2)
         {
-            return (num1 / num2) * 100;
+            return (num1 * num2) * 100;
         }
         #endregion
         #region InvPercent
@@ -37,7 +37,7 @@ namespace Calculator
         internal double Addition(double num1, double num2) => num1 + num2;
         #endregion
         #region Factorial
-        internal int Factorial(int num1)
+        internal long Factorial(int num1)
         {
             int result = 1;
             while (num1 > 1)
